@@ -1,0 +1,59 @@
+<div class="subheader-form">
+	SOCIAL ACTIVITIES
+</div>
+<div class="list">
+	<label class="item item-input border-bottom input-login">
+	<input 	
+		class="adb-orange" 
+		name="username" 
+		type="text" 
+		placeholder="Find other social activities" 
+		ng-model="filter_social">
+	</label>
+	<div class="activity-container" ng-repeat="activity in activities_all['Social'] | filter:filter_social | limitTo:6" ng-click="selectPreferred(activity, 'Social')">
+		<img ng-class="{'active': activity.user}" class="activity-avatar" ng-src="{{activity.image}}">
+		<div ng-bind="activity.name"></div>
+	</div>
+</div> 
+<div class="subheader-form">
+	ACTIVE ACTIVITIES
+</div>
+<div class="list">
+	<label class="item item-input border-bottom input-login">
+		<input 	
+			class="adb-orange" 
+			name="username" 
+			type="text" 
+			placeholder="Find other training activities" 
+			ng-model="filter_training">
+	</label>
+	<div class="activity-container" ng-repeat="activity in activities_all['Active'] | filter:filter_training | limitTo:6" ng-click="selectPreferred(activity, 'Active')">
+		<img ng-class="{'active': activity.user}" class="activity-avatar" ng-src="{{activity.image}}">
+		<div ng-bind="activity.name"></div>
+	</div>
+</div> 
+<div class="subheader-form">
+	SERVICES ACTIVITIES
+</div>
+<div class="list">
+	<label class="item item-input border-bottom input-login">
+	<input 	
+		class="adb-orange" 
+		name="username" 
+		type="text" 
+		placeholder="Find other service activities" 
+		ng-model="filter_services">
+	</label>
+	<div class="activity-container" ng-repeat="activity in activities_all['Handy'] | filter:filter_services | limitTo:6" ng-click="selectPreferred(activity, 'Handy')">
+		<img ng-class="{'active': activity.user}" class="activity-avatar" ng-src="{{activity.image}}">
+		<div ng-bind="activity.name"></div>
+	</div>
+</div> 
+<div class="row" ng-if="loading">
+	<div class="col-center home-col">
+		<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+	</div>
+</div>
+<div class="row">
+	<button class="button button-outline button-block button-adb button-login button-adb-inverse" ng-click="updateProfile()">SAVE CHANGES</button>
+</div>

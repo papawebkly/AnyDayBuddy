@@ -1,0 +1,21 @@
+<ion-modal-view>
+  	<ion-header-bar class="bar bar-header adb-header bg-default">
+	    <h1 class="title">
+	      <span ng-bind="action"></span>
+	    </h1>
+    	<button class="button button-clear button-light" ng-click="okSignModal()">Ok</button>
+  	</ion-header-bar>
+	<ion-content class="padding bg-main" >
+		<label class="item item-input transparent-noborder">
+			<input type="text" class="bottom-orange search-input" placeholder="{{placeholder}}" ng-model="filter">
+		</label>
+	  	<!-- <div class="row" ng-show="loadingCategories">
+	  		<div class="col-center home-col">
+	  			<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+	  		</div>
+	  	</div> -->
+		<ion-list>
+		    <ion-checkbox class="transparent-noborder" ng-click="clickCountry(country)" ng-repeat="country in countries | filter:filter"><span ng-bind="country.name"></span></ion-checkbox>
+		</ion-list>
+	</ion-content>
+</ion-modal-view>

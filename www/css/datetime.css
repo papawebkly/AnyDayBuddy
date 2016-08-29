@@ -1,0 +1,49 @@
+/**
+ * Date Time Picker
+ */
+.bootstrap-datetimepicker-widget .row {
+	display: block;
+}
+.datepicker,
+.timepicker {
+	width: 100%;
+    margin-top: 10px;
+}
+.table-condensed {
+	width: 100%;
+}
+.datepicker td,
+.timepicker td {
+	text-align: center;
+    padding: 5px;
+}
+.datepicker th {
+	font-size: 15px;
+}
+.datepicker thead tr {
+	height: 30px;
+}
+td.today {
+	background-color: #327D82;
+    color: white;
+    border-radius: 5px;
+}
+td.active {
+	background-color: rgb(30,70,80);
+    color: white;
+    border-radius: 5px;
+}
+td.new {
+	opacity: 0.5;
+}
+.timepicker .btn-primary {
+    background-color: rgb(30,70,80);
+    box-shadow: none;
+    border: none;
+    color: white;
+}
+.timepicker a, 
+.next, 
+.prev {
+	color: #327D82;
+}

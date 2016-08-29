@@ -1,0 +1,18 @@
+<div class="row" ng-if="loading">
+	<div class="col-center home-col">
+		<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+	</div>
+</div>
+<div class="search-container" ng-if="!loading" ng-click="openModalSearch(activity)">
+	<div class="search-card flex-center">
+		<div class="search-category padding">
+			<img ng-show="activity.category == 'handy'"  src="img/white-09.png" alt="">
+  			<img ng-show="activity.category == 'active'"  src="img/white-10.png" alt="">
+  			<img ng-show="activity.category == 'social'"  src="img/white-11.png" alt="">
+		</div>
+		<div>
+			<div class="search-name" ng-bind="activity.name.name"></div>
+			<div ng-bind="activity.startDate | date:'h:mma EEEE, MMMM d'"></div>
+		</div>
+	</div>
+</div>

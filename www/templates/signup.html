@@ -1,0 +1,57 @@
+<ion-view>
+  <ion-header-bar class="bar bar-header adb-header bg-default">
+    <button class="button button-clear button-light" ui-sref="login"><i class="ion-chevron-left"></i></button>
+  </ion-header-bar>
+  <ion-content class="padding bg-default">
+    <div class="home">
+      <div class="flex-center full-width logo">
+        <img src="img/logo.png">
+        <img src="img/Logo-03.png" class="logo-name">
+      </div>
+      <form name="signUp" class="form-login" novalidate>
+        <div class="list">
+          <label class="item item-input input-login">
+            <input name="email" type="email" placeholder="Email" ng-model="data.email" ng-change="checkCredentailsAvailability('email')" required>
+          </label>
+          <div class="err-msg-input"  ng-show="signUp.email.$invalid && signUp.email.$touched">
+            Please enter a valid email.</div>
+          <div class="err-msg-input" ng-show="signUp.email && !availability">
+            Sorry, this email is taken.</div>
+          <label class="item item-input input-login">
+            <input name="fullname" type="text" placeholder="Full Name" ng-model="data.fullname" required>
+          </label>
+          <div class="err-msg-input" ng-show="signUp.fullname.$touched && signUp.fullname.$error.required">
+            Please enter a value for this field.</div>
+          <label class="item item-input input-login">
+            <input name="password" type="password" placeholder="Password" ng-model="data.password" required>
+          </label>
+          <div class="err-msg-input" ng-show="signUp.password.$touched && signUp.password.$error.required">
+            Please enter a value for this field.</div>
+          <label class="item item-input input-login">
+            <input name="confirm_password" type="password" placeholder="Confirm password" ng-model="data.confirmPassword" ng-keyup="confirm()" required>
+          </label>
+          <div class="err-msg-input" ng-show="signUp.confirm_password.$touched && 
+			  		signUp.confirm_password.$error.required">
+            Please enter a value for this field.</div>
+          <div ng-show="!isConfirm">Passwords do not match.</div>
+        </div>
+        <input type="submit" class="hidden">
+        <div class="col-center home-col" ng-show="loading">
+          <ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+        </div>
+        <button class="button button-outline button-block button-light button-login" ng-click="signAttempt()">
+          SIGN UP
+        </button>
+        <div class="padding">or</div>
+        <div class="row">
+          <div class="col-50 text-center">
+            <button class="button facebook" ng-click="authenticate('facebook')">Facebook</button>
+          </div>
+          <div class="col-50 text-center">
+            <button class="button google" ng-click="authenticate('google')">Google</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

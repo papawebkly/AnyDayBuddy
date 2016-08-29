@@ -1,0 +1,86 @@
+<ion-modal-view class="conversation" ng-controller="ConversationsCtrl">
+  <ion-header-bar class="bar bar-header adb-header bg-main">
+    <button class="button button-clear adb-orange" ng-click="closeConversation()"><i class="ion-chevron-left"></i></button>
+    <img class="buddy-avatar" ng-if="!conversation.isGroup" ng-src="{{conversation.buddy.profileImage}}" ng-click="openModalProfile(conversation.buddy)">
+    <img class="buddy-avatar" ng-if="conversation.isGroup" ng-src="{{conversation.roomImage}}" alt="">
+    <h2 class="title text-center dark" ng-click="openShared = !openShared" ng-bind="conversation.title"></h2>
+    <button class="button button-clear adb-orange" ng-show="!openShared" ng-click="openMenu = !openMenu"><i class="ion-navicon-round"></i></button>
+  </ion-header-bar>
+  <ion-content ng-class="has-subheader" class="padding scroll-content ionic-scroll  has-header has-footer">
+    <div class="media padding" ng-show="openShared">
+      <div ng-repeat="(k, v) in images">
+        <!-- <span am-time-ago="k"></span> -->
+        <img ng-repeat="image in v" ng-src="{{image.content}}">
+      </div>
+      <p class="text-center" ng-if="!(images | keys).length">
+        You haven't share any files
+      </p>
+    </div>
+    <div class="bar bar-subheader bg-main" style="    position: absolute; top: 0px;" ng-show="openMenu && !openShared">
+      <div class="row">
+        <div class="col col-category active" ng-click="attach()">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-12.png" alt=""></i>
+          </button>
+          <div>Attach</div>
+        </div>
+        <div class="col col-category active" ng-click="openModalNewSearch(new_search, true)">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-14.png" alt="">
+          </button>
+          <div>Handshake</div>
+        </div>
+        <div class="col col-category" ng-click="addToBuddies()" ng-class="{'active': !(conversation.buddy.id | myBuddy)}">
+          <button class="button button-clear adb-orange">
+            <i class="ion-person-add"></i>
+          </button>
+          <div>Add buddy</div>
+        </div>
+      </div>
+    </div>
+    
+    <ion-scroll delegate-handle="conversationScroll" class="messages-container scroll" ng-show="!openShared">
+      <!-- <div class="row" ng-if="$root.loading_messages">
+  <div class="col-center home-col">
+    <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+  </div>
+</div> -->
+      <ion-refresher on-refresh="loadMoreData()" pulling-text="Load more" ng-if="!infiniteScrollPrevent"></ion-refresher>
+      <div class="message-item-container" ng-class="{'text-right': $root.user.id == message.creator.id, 'text-left': $root.user.id != message.creator.id}" ng-repeat="message in conversation.messages">
+        <div class="message-item" ng-class="{'guest': $root.user.id != message.creator.id}" ng-click="shouldNotFocusOnBlur()">
+          <!-- message is text -->
+          <div ng-if="::!isURL(message.content) && !(message.content | isActivity)">
+            <div ng-show="$root.user.id == message.creator.id">
+              <small class="time" ng-bind="message.createdAt | date:'h:mm a'"></small>
+              <p class="content text-right" ng-bind="message.content"></p>
+            </div>
+            <div ng-show="$root.user.id != message.creator.id">
+              <small class="time" ng-bind="message.createdAt | date:'h:mm a'"></small>
+              <p class="content" ng-bind="message.content"></p>
+            </div>
+          </div>
+          <div ng-class="{'text-right owner': $root.user.id == message.creator.id}" ng-if="::isURL(message.content)">
+            <img class="attach-chat" ng-src="{{message.content}}" ng-click="showModalImage(message.content)">
+          </div>
+          <div adb-message-activity="message.content" class="message-activity" ng-if="message.content | isActivity"></div>
+        </div>
+      </div>
+    </ion-scroll>
+  </ion-content>
+		
+  <!--ion-footer-bar class="bar-light chat-bar bar bar-footer">
+        <form class="row ng-pristine ng-invalid ng-invalid-required ng-valid-minlength" name="theform">
+            <input class="col col-75 ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-touched" type="text" ng-model="chatText" placeholder="Type a message" ng-minlength="1" ng-required="true" required="required">
+            <button class="col button" ng-click="sendChat(chatText)" ng-disabled="theform.$invalid" disabled="disabled">Send</button>
+        </form>
+  </ion-footer-bar-->
+
+  <ion-footer-bar keyboard-attach class="bar-stable item-input-inset" ng-show="!openShared">
+    <label class="item-input-wrapper">
+      <input id="chat_input" detect-focus ng-model="content" type="text" placeholder="Type your message"></input>
+    </label>
+    <button class="button button-clear" ng-show="content" ng-click="send()">
+      Send
+    </button>
+  </ion-footer-bar>
+</ion-modal-view>

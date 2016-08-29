@@ -1,0 +1,106 @@
+<div class="row buddy-profile border-bottom">
+	<img class="buddy-avatar" ng-src="{{data.profileImage}}">
+	<button
+		ng-click="selectImage()"
+  		class="button button-outline button-block button-adb button-login">
+  		CHANGE AVATAR
+	</button>
+	<md-button class="md-icon-button chat-dropzone"
+        dropzone="dropzone" reset="true">
+</div>
+<ul class="list">
+  <li class="item item-signup adb-orange no-border" style="padding-bottom: 0">
+  	<label class="item item-input input-signup" style="margin-bottom: 0" >
+  		<span class="input-label">Username</span>
+      	<input
+      		class="border-bottom"
+      		name="usernmae"
+      		type="text"
+      		placeholder="Username"
+      		ng-model="data.username">
+    	</label>
+  </li>
+  <li class="item item-signup adb-orange border-bottom">
+  	<label class="item item-input input-signup">
+  		<span class="input-label">Full Name</span>
+      	<input
+      		class="border-bottom"
+      		name="fullname"
+      		type="text"
+      		placeholder="Fullname"
+      		ng-model="data.fullname">
+    	</label>
+    	<div>
+  	     <input type="checkbox" ng-model="data.showUsername">
+  	    Show username
+  	    <input style="margin-left: 20px;" type="checkbox" ng-model="data.showName" >
+  	    Show name
+    	</div>
+  </li>
+  <li class="item item-signup adb-orange border-bottom">
+    	<label class="item item-input input-signup">
+  		<span class="input-label">BIRTH DATE</span>
+      	<input
+      		class="border-bottom"
+      		name="birthdate"
+      		type="text"
+      		placeholder="January 1st, 1980"
+      		ng-model="data.birth" ng-change="validateDate()" required>
+    	</label>
+    	<div ng-show="data.birth && !isValidDate">
+    		Please enter a valid value.
+    	</div>
+  </li>
+  <li class="item item-signup border-bottom">
+    	<label class="flex-center input-signup no-mbottom">
+    		<span class="input-label">Gender</span>
+    		<label class="adb-orange">
+    		    <input type="radio" name="gender" ng-model="data.gender" value="m">
+    		    Male
+    		    
+    	  	</label>
+            <label class="adb-orange">
+                 <input style="margin-left: 20px;"  name="gender" type="radio" ng-model="data.gender" value="f">
+                Female
+            </label>
+    	</label>
+  </li>
+  <li class="item item-signup adb-orange no-border" style="padding-bottom: 0">
+    	<label class="item item-input input-signup" style="margin-bottom: 0" ng-click="openSignModal('Country', 'Select a Country')">
+  		<span class="input-label">Country</span>
+      	<div name="country" type="text" class="item-div border-bottom">
+      		<span class="adb-orange" ng-show="!data.country">Select a Country</span>
+      		<span class="adb-orange" ng-show="data.country" ng-bind="data.country"></span>
+  		</div>
+    	</label>
+  </li>
+  <li class="item item-signup adb-orange border-bottom">
+  		<label class="item item-input input-signup">
+  		<span class="input-label">City</span>
+      	<input
+      		class="border-bottom"
+      		name="city"
+      		type="text"
+      		ng-model="data.city">
+    	</label>
+  </li>
+  <li class="item item-signup adb-orange no-border item-textarea">
+  	<label class="item item-input input-signup">
+  		<span class="input-label">Personal Biography</span>
+  	</label>
+  	<textarea
+    	class="textarea-login adb-orange"
+    	name="biography"
+    	type="text"
+    	placeholder="Tell us a little about yourself..."
+    	ng-model="data.biography"></textarea>
+  </li>
+</ul>
+<div class="row" ng-if="loading">
+	<div class="col-center home-col">
+		<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+	</div>
+</div>
+<div class="row">
+	<button class="button button-outline button-block button-adb button-login button-adb-inverse" ng-click="updateProfile()">SAVE CHANGES</button>
+</div>

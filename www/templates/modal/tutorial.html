@@ -1,0 +1,69 @@
+<ion-modal-view  ng-controller="DashboardCtrl" style="box-shadow: 1px 2px 2px 2px #aaaaaa; width: 90%; height: 70%;min-height:70% !important; border:1px slide; top: 15%; left: 5%; right: 5%; bottom: 15%;">
+  <ion-header-bar class="bar bar-header adb-header bg-tutorial" style="margin-top:-20px !important">
+    <h1 class="title tutorial-title">
+      <span>SWIPE TO LEARN MORE</span>
+    </h1>
+    <button class="button button-clear button-light" ng-click="hideModalTutorial()">
+      <i class="ion-close" style="color: #eb7e33;"></i>
+    </button>
+  </ion-header-bar>
+    <ion-slide-box on-slide-changed="slideChanged(index)">
+        <ion-slide>
+          <h2 style="font-weight: bold;margin-top:20px; color:#eb7e33">WELCOME TO ANYDAY BUDDY</h2>
+          <h3 style="margin-top:20px; color:#eb7e33">LET'S GET STARTED!</h3>
+          <div id="logo" style="margin-top:10px">
+           <img style="width:75px;"  src="img/logo.png">
+          </div>
+          <h5 style="color:#eb7e33">Tap the logo to access your</h5>
+          <h5 style="margin-top:-10px; color:#eb7e33">Home page from anywhere</h5>
+          
+        </ion-slide>
+        <ion-slide>
+            <img src="img/orange-15.png;" class="ng-scope" style="width:40px;position: relative;left: -18px;">
+                <h3 style="margin-left:10px;font-weight: bold;margin-top:20px; color:#eb7e33; display: inline-block;position: relative; left: -18px;">FEEL THE VIBE</h3>
+            <h5 style="color:#eb7e33; text-align:center">Search your area for</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">the most popular</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">events and activities</h5>
+            
+            <h5 style="margin-top:20px; margin-bottom:20px;text-align:center; color:#eb7e33">or</h5>
+        
+            <img src="img/orange-02.png;" class="ng-scope" style="width:28px;">
+            <h3 style="margin-left:10px;font-weight: bold; margin-top:20px; color:#eb7e33;display: inline-block;">START A SEARCH</h3>
+            <h5 style="color:#eb7e33; text-align:center;">Search for something your like,</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">and start making buddies!</h5>
+        </ion-slide>
+        <ion-slide>
+          <img src="img/orange-04.png;" class="ng-scope" style="width:28px;">
+            <h3 style="margin-left:10px;font-weight: bold;margin-top:20px; color:#eb7e33; display: inline-block;">YOUR BUDDIES</h3>
+            <h5 style="color:#eb7e33; text-align:center">See your buddies, and add new</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">friends with their Buddy ID</h5>
+            
+            <h5 style="margin-top:20px; margin-bottom:20px;text-align:center; color:#eb7e33"> </h5>
+        
+            <img src="img/orange-03.png;" class="ng-scope" style="width:28px;">
+            <h3 style="margin-left:10px;font-weight: bold;margin-top:20px; color:#eb7e33;display: inline-block;">NOTIFICATION</h3>
+            <h3 style="margin-top:-5px; color:#eb7e33;">CENTER</h3>
+            <h5 style="color:#eb7e33; text-align:center;">Get alerts when you are matched</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">or are invited to an event</h5>
+        </ion-slide>
+        <ion-slide>
+          <img src="img/orange-07.png;" class="ng-scope" style="width:28px;">
+            <h3 style="margin-left:10px;font-weight: bold;margin-top:40px; color:#eb7e33; display: inline-block;">BUDDY CHAT</h3>
+            <h5 style="color:#eb7e33; text-align:center">Chat with your new buddies,</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">share fiels, and confirm activities</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">through your message center</h5>
+        </ion-slide>
+        <ion-slide>
+            <h3 style="font-weight: bold;margin-top:20px; color:#eb7e33;">WANT MORE?</h3>
+            <h5 style="color:#eb7e33; text-align:center">Learn more about Any Day Buddy</h5>
+            <h5 style="margin-top:-10px;text-align:center; color:#eb7e33">by visiting us online</h5>
+            
+            <h5 style="margin-top:20px; margin-bottom:20px;text-align:center; color:#eb7e33"> </h5>
+        
+            <h3 style="font-weight: bold;margin-top:20px; color:#eb7e33">LET'S GET STARTED!</h3>
+            <button style="margin-top:20px" class="button button-outline button-block button-adb button-login" ng-click="hideModalTutorial()">
+            SEE MY HOME PAGE
+           </button>
+        </ion-slide>
+    </ion-slide-box>
+</ion-modal-view>

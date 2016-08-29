@@ -1,0 +1,58 @@
+<ion-view class="buddies bg-main">
+  <ion-content class="padding has-header">
+  <!-- Buddies -->
+  	<div class="row">
+  		<h4 class="header-section"><img src="img/orange-04.png" alt="">My Buddies</h4>
+  	</div>
+  	<div class="row">
+  		<div class="col-center home-col" ng-if="loading_buddies">
+  			<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+  		</div>
+  	</div>
+    <div class="list" ng-show="buddies.length > 0">
+      <label class="padding-right item item-input input-buddy transparent-noborder">
+            <input
+      class="border-bottom adb-orange"
+              type="text"
+              placeholder="Search"
+              ng-model="filter">
+          </label>
+    </div>
+    <div class="row-buddies">
+	    <div class="buddies-container"ng-repeat="buddy in buddies |  filter:filter" ng-click="openModalProfile(buddy)">
+            <div>
+                <img class="buddy-avatar" ng-src="{{buddy.profileImage}}">
+                <span style="color: rgb(235, 125, 50);    display: block;">{{buddy.fullname}}</span>
+            </div>
+        </div>
+	    </div>
+		<button 
+	  		class="button button-outline button-block button-adb button-login" 
+	  		ng-click="openModalProfile()"><i class="ion-person-add"></i>
+	  		ADD BUDDY
+		</button>
+	</div>
+
+	<!-- Groups -->
+  	<div class="row">
+  		<h4 class="header-section"><img src="img/orange-05.png" alt="">My groups</h4>
+  	</div>
+  	<div class="row">
+  		<div class="col-center home-col" ng-if="loading_groups">
+  			<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+  		</div>
+  	</div>
+    <div class="row-buddies">
+	    <div class="groups-container" ng-repeat="group in groups" ng-click="openModalGroup(group)">
+	    	<img class="buddy-avatar" ng-src="{{group.room.roomImage}}">
+	    	<div ng-bind="group.room.name"></div>
+	    </div>		
+	    <button 
+	  		class="button button-outline button-block button-adb button-login" 
+	  		ng-click="openModalGroup()">
+	  		CREATE NEW GROUP
+		</button>
+	</div>
+
+  </ion-content>
+</ion-view>

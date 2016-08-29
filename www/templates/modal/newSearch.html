@@ -1,0 +1,172 @@
+<ion-modal-view ng-controller="NewSearchCtrl">>
+  <ion-header-bar class="bar bar-header adb-header bg-default">
+    <button class="button button-clear button-light" ng-hide="step == 1" ng-click="prevStep()"><i class="ion-chevron-left"></i></button>
+    <h1 class="title">
+	    </h1>
+    <button class="button button-clear button-light" ng-click="hideModalNewSearch()">
+      <i class="ion-close"></i></button>
+  </ion-header-bar>
+  <ion-content class="new-search-modal padding bg-default">
+    <!-- Select Category -->
+    <div ng-if="step == 1" class="full-width">
+      <div class="header-title">
+        PICK A CATEGORY
+      </div>
+      <div class="row">
+        <div class="col col-category" ng-click="selectCategory('social')" ng-class="{'active': new_search.category == 'social'}">
+          <button class="button button-clear">
+            <img src="img/teal-11.png" alt="">
+          </button>
+          <div>Social</div>
+        </div>
+        <div class="col col-category" ng-click="selectCategory('active')" ng-class="{'active': new_search.category == 'active'}">
+          <button class="button button-clear">
+            <img src="img/teal-10.png" alt="">
+          </button>
+          <div>Active</div>
+        </div>
+        <div class="col col-category" ng-click="selectCategory('handy')" ng-class="{'active': new_search.category == 'handy'}">
+          <button class="button button-clear">
+            <img src="img/teal-09.png" alt="">
+          </button>
+          <div>Services</div>
+        </div>
+      </div>
+      <!-- <div class="row">
+		  		<label class="flex-center col-offset-10 col col-80">
+				    <input type="radio" ng-model="new_search.vibe" ng-true-value="true">
+				    <span class="padding-left">Do not let this event appear on feel the vibe</span>
+			  	</label>
+		  	</div> -->
+      <!--       <div class="row bottom">
+        <button class="col col-50 col-offset-50 button button-block button-next" ng-click="nextStep()">
+          NEXT
+        </button>
+      </div> -->
+      <div class="fixed-button text-right">
+        <button class="button button-next" ng-click="nextStep()">
+          NEXT
+        </button>
+      </div>
+    </div>
+    <!-- What -->
+    <div class="text-center full-width" ng-if="step == 2">
+      <img class="icon-adb" src="img/search_what.svg">
+      <div class="header-login">
+        WHAT ARE WE DOING?
+      </div>
+      <div class="search-input">
+        <span ng-show="new_search.activities.length > 1">
+					{{new_search.activities.length}} activities selected</span>
+        <span ng-show="new_search.activities.length == 1" ng-bind="new_search.activities[0].name"></span>
+        <span ng-show="new_search.activities.length == 0">No activities selected</span>
+      </div>
+      <form ng-submit="unofficial()">
+        <label class="item item-input input-login">
+          <input type="text" placeholder="Find Activities" ng-model="object.filter">
+        </label>
+        <input type="submit" style="visibility: hidden;">
+      </form>
+      <div ng-repeat="activity in categories | filter:object.filter | limitTo:5">
+        <div class="item-place dark" ng-class="{'adb-orange': activity.added}" ng-click="clickActivity(activity)">
+            <img ng-src="{{activity.image}}" class="ng-scope" style="height:30px; width:30px; border-radius: 50%;border: 1px solid #cecece;">
+            <span style="display: inline-block;overflow: hidden !important;position: absolute;margin-top: 5px; margin-left:10px">{{activity.name}}</span>
+        </div>
+      </div>
+      <div class="bottom text-right">
+        <button class="button button-block button-next" ng-click="nextStep()" ng-disabled="new_search.activities == 0">
+          NEXT
+        </button>
+      </div>
+    </div>
+    <!-- Where -->
+    <div class="text-center full-width" ng-if="step == 3" style="position:absolute; top:10px">
+      <img class="icon-adb" src="img/search_where.svg">
+      <div class="header-login">
+        WHERE ARE WE GOING?
+      </div>
+      <label class="item item-input input-login">
+            <input type="text" placeholder="Place" ng-model="new_search.address" ng-change="autocompleteAddress(new_search.address)">
+      </label>
+      <div ng-repeat="item in places | limitTo:5" style="margin-top:2px">
+        <div class="item-place dark" ng-click="setLocation(item)"><i class="ion-android-pin padding-right"></i>{{item.description}}</div>
+      </div>
+      <div class="fixed-button text-right">
+        <button class="button button-block button-next" ng-click="nextStep()" ng-disabled="!new_search.addressPlace">
+          NEXT
+        </button>
+      </div>
+    </div>
+    <!-- When -->
+    <div class="text-center full-width" ng-if="step == 4">
+      <img class="icon-adb" src="img/search_when.svg">
+      <div class="header-login">
+        WHEN IS IT HAPPENING?
+      </div>
+      <div class="search-input" ng-click="openSearchFindModal('When', 'When is it happening?')">
+        <span ng-show="startDate" ng-bind="startDate"></span>
+        <span ng-show="!startDate">Start Date</span>
+      </div>
+      <div class="search-input">
+        <span ng-show="endDate" ng-bind="endDate"></span>
+        <span ng-show="!endDate">End Date</span>
+      </div>
+      <div class="fixed-button text-right">
+        <!-- ng-disabled="!new_search.address" -->
+        <button class="button button-block button-next" ng-click="nextStep()">
+          NEXT
+        </button>
+      </div>
+    </div>
+    <div class="text-center full-width" ng-if="step == 5">
+      <div class="header-login">
+        INVITE SOME BUDDIES
+      </div>
+      <div class="row-buddies">
+        <div class="padding buddies-container" ng-click="clickBuddy(buddy)" ng-repeat="buddy in buddies | filter:filter_buddy">
+          <img class="buddy-avatar" ng-class="{'active': checkBuddy(buddy)}" ng-src="{{buddy.profileImage}}">
+        </div>
+      </div>
+      <label class="item item-input input-login">
+        <input name="username" type="text" placeholder="Search for buddies" ng-model="filter_buddy">
+      </label>
+      <div class="row">
+        <label class="col col-offset-10 flex-center">
+          <input type="radio" ng-model="new_search.type" value="public">
+          <span class="padding-left">Public Event</span>
+        </label>
+        <label class="col flex-center">
+          <input type="radio" ng-model="new_search.type" value="private">
+          <span class="padding-left">Private Event</span>
+        </label>
+        
+      </div>
+      <div style="margin-top:20px;margin-bottom:0" class="header-login" ng-show="new_search.category == 'handy' && !new_search.isOffering">
+        ADDITIONAL INFO
+      </div>
+      <div class="row" ng-show="new_search.category == 'handy' && !new_search.isOffering">
+        <div class="full-width item item-signup no-border item-textarea">
+          <textarea class="textarea-login" name="biography" type="text" placeholder="Tell us a little about yourself..." ng-model="data.biography"></textarea>
+        </div>
+      </div>
+      <div class="container-search row">
+        <div class="search-handy" ng-repeat="img in new_search.imageGallery" ng-style="{'background-image': 'url('+img+')'}" ng-click="removeItem($index)"></div>
+      </div>
+      <div class="text-center">
+        <button class="button button-outline" ng-click="choosePicture()" ng-hide="new_search.imageGallery.length == 5">
+          CHOOSE PICTURES
+        </button>
+      </div>
+      <div class="col-center home-col" ng-show="loading">
+        <ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+      </div>
+      <div class="fixed-button text-right" >
+        <button class="button button-block button-next" ng-click="search()">
+          CREATE EVENT
+        </button>
+      </div>
+    </div>
+    <ui-gmap-google-map id="map" ng-show="mapVisible" center="map.center" zoom="map.zoom" options="map.options" control="map.control">
+    </ui-gmap-google-map>
+  </ion-content>
+</ion-modal-view>

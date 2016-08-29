@@ -1,0 +1,27 @@
+<ion-view class="notifications bg-main">
+  	<ion-content class="padding has-header">
+	  	<div class="row">
+	  		<h4 class="header-section"><img src="img/orange-03.png" alt="">Notifications</h4>
+	  	</div>
+		<!-- <span class="notification-count" ng-show="(notifications | filter:{readed:false}).length" ng-bind="(notifications | filter:{readed:false}).length"></span> -->
+		<div>
+			<div class="text-center" ng-show="notifications.length == 0 || !notifications">
+				No notifications
+			</div>
+			<div ng-repeat="item in notifications | filter:{readed:false}">
+		        <div ng-click="showConfirm(item)" ng-hide="!item.action" class="item-notification flex-center" ng-class="{'border-bottom': $last, 'readed': item.readed}">
+		        	<div class="adb-orange" ng-show="item.type == 'activityInvitation'">
+		        		<i class="ion-search"></i></div>
+		        	<div class="adb-orange" ng-show="item.type == 'friendRequest'">
+		        		<i class="ion-person"></i></div>
+	        		<div class="adb-orange" ng-show="item.type == 'groupInvitation'">
+		        		<i class="ion-person-stalker"></i></div>
+		          	<div>
+		          		<span ng-bind="item.sender.fullname || item.sender.username"></span>
+		          		<span ng-bind="item.message"></span>
+		          	</div>
+		        </div>
+			</div>
+		</div>
+  	</ion-content>
+</ion-view>

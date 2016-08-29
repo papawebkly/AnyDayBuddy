@@ -1,0 +1,77 @@
+<ion-view class="search bg-main">
+  <ion-content class="padding has-header">
+    <div class="actives-search no-margin">
+      <div class="row">
+        <button class="button button-outline button-block button-adb button-login" ng-click="openModalNewSearch()">
+          <img src="img/orange-02.png" alt="">START A NEW SEARCH
+        </button>
+      </div>
+      <div class="row">
+        <h4 class="header-section">
+		  		<img src="img/orange-02.png" alt="">Active searches</h4>
+      </div>
+      <div class="row">
+        <div class="col col-category" ng-click="selectCategory('social')" ng-class="{'active': categories.indexOf('social') > -1}">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-11.png" alt="">
+          </button>
+        </div>
+        <div class="col col-category" ng-click="selectCategory('active')" ng-class="{'active':categories.indexOf('active') > -1}">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-10.png" alt="">
+          </button>
+        </div>
+        <div class="col col-category" ng-click="selectCategory('handy')" ng-class="{'active': categories.indexOf('handy') > -1}">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-09.png" alt="">
+          </button>
+        </div>
+      </div>
+      <div class="row" ng-if="loading_search">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <div class="search-container">
+        <div class="text-center" ng-show="aux_activities.length == 0">No searches found</div>
+        <div class="list" ng-show="aux_activities.length > 0">
+          <label class="padding-right item item-input input-buddy transparent-noborder">
+            <input class="border-bottom adb-orange" type="text" placeholder="Search" ng-model="filter">
+          </label>
+        </div>
+        <div class="search-card flex-center" ng-click="openModalSearch(activity)" ng-repeat="activity in aux_activities | filter: filter">
+          <div class="search-category padding">
+            <img ng-show="activity.category == 'handy'" src="img/white-09.png" alt="">
+            <img ng-show="activity.category == 'active'" src="img/white-10.png" alt="">
+            <img ng-show="activity.category == 'social'" src="img/white-11.png" alt="">
+          </div>
+          <div>
+            <div class="search-name" ng-bind="activity.name.name"></div>
+            <div ng-bind="activity.startDate | date:'h:mma EEEE, MMMM d'"></div>
+            <div ng-bind="activity.endDate | date:'h:mma EEEE, MMMM d'"></div>
+            <div ng-bind="activity.address"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-02.png" alt="">Archived searches</h4>
+      </div>
+      <div class="search-container">
+        <div class="text-center" ng-show="activities_archived.length == 0">No searches archived</div>
+        <div class="search-card flex-center" ng-click="openModalSearch(activity)" ng-repeat="activity in activities_archived">
+          <div class="search-category padding">
+            <img ng-show="activity.category == 'handy'" src="img/white-09.png" alt="">
+            <img ng-show="activity.category == 'active'" src="img/white-10.png" alt="">
+            <img ng-show="activity.category == 'social'" src="img/white-11.png" alt="">
+          </div>
+          <div>
+            <div class="search-name" ng-bind="activity.name.name"></div>
+            <div ng-bind="activity.startDate | date:'h:mma EEEE, MMMM d'"></div>
+            <div ng-bind="activity.endDate | date:'h:mma EEEE, MMMM d'"></div>
+            <div ng-bind="activity.address"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

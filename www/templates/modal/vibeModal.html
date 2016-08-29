@@ -1,0 +1,106 @@
+<ion-modal-view  ng-controller="VibeCtrl">
+  	<ion-header-bar class="bar bar-header adb-header bg-default">
+	    <h1 class="title">
+	      <span ng-show="selected_buddy">Feel the Vibe</span>
+	    </h1>
+    	<button class="button button-clear button-light" ng-click="removeModalVibe()">
+    		<i class="ion-close"></i></button>
+  	</ion-header-bar>
+  	<!-- Vibe -->
+  	<ion-content class="padding bg-main">
+  		<!-- Filter -->
+  		<div class="row">
+	  		<h4 class="header-section"><i class="ion-search"></i>refine Search</h4>
+	  	</div>
+	  	<div class="row">
+		  	<div class="col col-category" ng-click="filter.selectedCategories = 'social'" ng-class="{'active': filter.selectedCategories == 'social'}">
+		  		<button class="button button-clear adb-orange">
+		  			<img src="img/orange-11.png" alt="">
+		  		</button>
+		  		<div>Social</div>
+		  	</div>
+		  	<div class="col col-category" ng-click="filter.selectedCategories = 'active'" ng-class="{'active': filter.selectedCategories == 'active'}">
+		  		<button class="button button-clear adb-orange">
+		  			<img src="img/orange-10.png" alt="">
+		  		</button>
+		  		<div>Active</div>
+		  	</div>
+		  	<div class="col col-category" ng-click="filter.selectedCategories = 'handy'" ng-class="{'active': filter.selectedCategories == 'handy'}">
+		  		<button class="button button-clear adb-orange">
+		  			<img src="img/orange-09.png" alt="">
+		  		</button>
+		  		<div>Services</div>
+		  	</div>
+		  	
+	  	</div>
+		<div class="padding-bottom">
+  			<div class="list">
+    			<label class="padding-right item item-input input-buddy transparent-noborder">
+	              <input
+					class="border-bottom adb-orange"
+	                type="text"
+	                placeholder="Search"
+	                ng-model="filter.search">
+	            </label>
+  			</div>
+  			<div>
+		        <!-- Fecha -->
+  			</div>
+  			<div class="col text-center">
+  				<button
+  				class="button-adb button-circle"
+		        ng-show="filter.selectedCategories.length || filter.startDate || filter.endDate"
+		        ng-click="resetFilter()">
+    			<i class="ion-refresh"></i>
+  				</button>
+  			</div>
+		</div>
+  		<!-- Map -->
+		<ui-gmap-google-map id="map" center="map.center" zoom="map.zoom" options="map.options" control="map.control" events="map.events">
+	        <ui-gmap-markers models="activities" coords="'location'" click="markerClick" icon="'icon'">
+	        </ui-gmap-markers>
+	  	</ui-gmap-google-map>
+	  	<!-- Activities -->
+	  	<div ng-if="!activity">
+          	<div>
+            	<!-- <span ng-bind="data.length == 0 ? 'The are no activities in this area' : 'Top activities'" ng-show="mapVisible && !loading"></span> -->
+          	</div>
+          	<div ng-show="mapVisible && loading">
+            	<div class="row" ng-if="loading">
+					<div class="col-center home-col">
+						<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+					</div>
+				</div>
+          	</div>
+          	<div ng-class="{'active': key == activity}" ng-repeat="(key, value) in data" ng-click="updateMap(key, value)">
+            	<div class="border-bottom padding">
+              		<div class="adb-orange bold" ng-bind="categories[key].name | uppercase"></div>
+             		<div ng-bind="participants[key] + ' participants'"></div>
+            	</div>
+          	</div>
+        </div>
+        <!-- Venues -->
+        <div ng-if="activity">
+          	<div class="row flex-center">
+            	<button class="button-adb button-circle" ng-click="closeActivity()"><i class="ion-chevron-left"></i></button>
+            	<div class="padding-left bold adb-orange" ng-bind="categories[activity].name"></div>
+          	</div>
+          	<div ng-repeat="activity in data[activity]" ng-click="openActivity(activity)">
+            	<div class="search-card flex-center" ng-repeat="item in activity">
+		  			<div class="search-category padding">
+		  				<img ng-show="activity.category == 'handy'"  src="img/white-09.png" alt="">
+		  				<img ng-show="activity.category == 'active'"  src="img/white-10.png" alt="">
+		  				<img ng-show="activity.category == 'social'"  src="img/white-11.png" alt="">
+		  			</div>
+		  			<div>
+		  				<div class="search-name padding-bottom" ng-bind="item.address"></div>
+		  				<div ng-bind="item.startDate | date:'h:mma EEEE, MMMM d'"></div>
+		  				<div ng-show="item.endDate != -1" ng-bind="item.endDate | date:'h:mma EEEE, MMMM d'"></div>
+		  				<div ng-show="item.endDate == -1">Until Further Notice</div>
+		  				<div ng-bind="item.participants.length + ' participants'"></div>
+		  			</div>
+		  		</div>
+          	</div>
+        </div>
+  	</ion-content>
+</ion-modal-view>

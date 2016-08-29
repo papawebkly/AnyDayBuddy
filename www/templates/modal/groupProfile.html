@@ -1,0 +1,74 @@
+<ion-modal-view ng-controller="GroupProfileCtrl">
+  	<ion-header-bar class="bar bar-header adb-header bg-default">
+	    <h1 class="title">
+	      <span ng-show="selected_group">Group Profile</span>
+	      <span ng-show="!selected_group">Create Group</span>
+	    </h1>
+    	<button class="button button-clear button-light" ng-click="hideModalGroup()">
+    	<i class="ion-close"></i></button>
+  	</ion-header-bar>
+	<!-- Profile/New Group -->
+  	<ion-content class="groups padding bg-default">
+		<div style="display: block;"  class="buddy-profile full-width text-center">
+			<img class="buddy-avatar" ng-src="{{selected_group.room.roomImage || default_avatar}}">
+		</div>
+		<div>
+			<label class="item item-input item-stacked-label no-border">
+			    <span class="input-label dark bold">Group Name</span>
+			    <input class="transparent-noborder border-bottom-light color-white" 
+			    	type="text" placeholder="Group Name"
+			    	ng-model="selected_group.room.name" ng-disabled="!selected_group.creator && !new_group">
+		  	</label>
+		  	<label class="padding-top item item-input item-stacked-label no-border">
+			    <span class="input-label dark bold">Type</span>
+		    </label>
+  		    <div style="padding-left: 16px;" class="flex-center color-white">
+  		    	<input type="radio" ng-model="selected_group.room.isPrivate" ng-value="false"
+  		    	ng-disabled="!selected_group.creator && !new_group">
+	  		    <span class="padding-left">Public</span>
+	  		    <input style="margin-left: 20px;" type="radio" ng-model="selected_group.room.isPrivate" ng-value="true"
+	  		    ng-disabled="!selected_group.creator && !new_group">
+	  		    <span class="padding-left">Private</span>
+  		    </div>
+  		    <label class="padding-top item item-input item-stacked-label no-border">
+			    <span class="input-label dark bold">Category</span>
+		    </label>
+  		    <div style="padding-left: 16px;" class="flex-center color-white">
+  		    	<input type="radio" ng-model="selected_group.room.topic" value="social"
+  		    	ng-disabled="!selected_group.creator && !new_group">
+	  		    <span class="padding-left">Social</span>
+	  		    <input style="margin-left: 20px;" type="radio" ng-model="selected_group.room.topic" value="handy" ng-disabled="!selected_group.creator && !new_group">
+	  		   	<span class="padding-left">Service</span>
+	  		    <input style="margin-left: 20px;" type="radio" ng-model="selected_group.room.topic" value="active" ng-disabled="!selected_group.creator && !new_group">
+	  		    <span class="padding-left">Active</span>
+  		    </div>
+  		    <label class="padding-top item item-input item-stacked-label no-border">
+			    <span class="input-label dark bold">Invited Buddies</span>
+		    </label>
+  		    <div class="row-buddies" ng-show="!new_group" style="padding-left: 16px;" >
+	    		<div class="buddies-container" 
+	    			ng-repeat="buddy in selected_group.members">
+		    		<img class="buddy-avatar active" ng-src="{{buddy.profileImage}}" ng-disabled="!selected_group.creator && !new_group">
+	    		</div>
+		  	</div>
+		  	<div class="row-buddies" ng-show="new_group" style="padding-left: 16px;" >
+	    		<div class="buddies-container" 
+	    			ng-repeat="buddy in buddies" 
+	    			ng-click="selectBuddy(buddy)">
+		    		<img class="buddy-avatar" ng-class="{'active': buddy.invited}" ng-src="{{buddy.profileImage}}" ng-disabled="!selected_group.creator && !new_group">
+	    		</div>
+		  	</div>
+		</div>
+		<div class="row" ng-if="loading">
+			<div class="col-center home-col">
+				<ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+			</div>
+		</div>
+		<div class="text-center" ng-show="selected_group.creator && !new_group">
+			<button class="button button-next" ng-click="updateGroup()">SAVE CHANGES</button>
+		</div>
+		<div class="text-center" ng-show="new_group">
+			<button class="button button-next" ng-click="createGroup()">CREATE GROUP</button>
+		</div>
+  	</ion-content>
+</ion-modal-view>

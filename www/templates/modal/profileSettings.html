@@ -1,0 +1,76 @@
+<ion-modal-view>
+  	<ion-header-bar class="bar bar-header adb-header bg-main">
+    	<h1 class="title adb-orange">
+	      Account Settings
+    	</h1>
+    	<button class="button button-clear button-light adb-orange" ng-click="hideModalSettings()">
+    	<i class="ion-close"></i></button>
+	</ion-header-bar>
+  	<ion-content class="settings padding bg-main" ng-controller="SettingsCtrl">
+  		<div class="row border-bottom">
+  			<div class="col adb-orange text-center" 
+  				ng-click="tab_settings = 1"
+  				ng-class="{'bold':tab_settings == 1}">
+  				Account Info
+  			</div>
+  			<div class="col adb-orange text-center" 
+  				ng-click="tab_settings = 2"
+  				ng-class="{'bold':tab_settings == 2}">
+  				Activities
+  			</div>
+  			<div class="col adb-orange text-center" 
+  				ng-click="tab_settings = 3"
+  				ng-class="{'bold':tab_settings == 3}">
+  				Password
+  			</div>
+  		</div>
+  		<div ng-show="tab_settings == 1">
+  			<div ng-include="'templates/profileSettingsView.html'"></div>
+  		</div>
+  		<div ng-show="tab_settings == 2">
+  			<div ng-include="'templates/activitiesSettingsView.html'"></div>
+  		</div>
+  		<div ng-show="tab_settings == 3">
+  			<ul class="list">
+			  	<li class="item item-signup adb-orange no-border" style="padding-bottom: 0">
+			  		<label class="item item-input border-bottom input-login">
+						<input 	
+							class="adb-orange" 
+							name="username" 
+							type="password" 
+							placeholder="Current Password" 
+							ng-model="data.currentPassword">
+					</label>
+			  	</li>
+			  	<li class="item item-signup adb-orange no-border" style="padding-bottom: 0">
+			  		<label class="item item-input border-bottom input-login">
+						<input 	
+							class="adb-orange" 
+							name="username" 
+							type="password" 
+							placeholder="New Password" 
+							ng-model="data.newPassword">
+					</label>
+			  	</li>
+			  	<li class="item item-signup adb-orange no-border" style="padding-bottom: 0">
+			  		<label class="item item-input border-bottom input-login">
+						<input 	
+							class="adb-orange" 
+							name="username" 
+							type="password" 
+							placeholder="Confirm Password" 
+							ng-model="data.confirmPassword">
+					</label>
+			  	</li>
+		  	</ul>
+		  	<div class="row" ng-if="loading">
+				<div class="col-center home-col">
+					<ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+				</div>
+			</div>
+			<div class="row">
+				<button class="button button-outline button-block button-adb button-login button-adb-inverse" ng-click="changePassword()">SAVE CHANGES</button>
+			</div>
+  		</div>
+  	</ion-content>
+</ion-modal-view>

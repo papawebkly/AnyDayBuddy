@@ -1,0 +1,29 @@
+<ion-view>
+  <ion-content scroll="false">
+    <div class="home">
+      <div class="flex-center full-width logo">
+        <img src="img/logo.png">
+        <img src="img/Logo-03.png" class="logo-name">
+      </div>
+      <form class="form-login" ng-submit="loginAttempt()" novalidate>
+        <div class="list">
+          <label class="item item-input input-login">
+            <input name="email" type="email" placeholder="Email" ng-model="formLogin.email">
+          </label>
+          <label class="item item-input input-login">
+            <input name="password" type="password" placeholder="Password" ng-model="formLogin.password">
+          </label>
+        </div>
+        <input type="submit" class="hidden">
+        <!-- <p ng-show="error" class="error padding-bottom">User or password invalid</p> -->
+      </form>
+      <div class="col-center home-col" ng-show="loading">
+        <ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+      </div>
+      <button class="button button-outline button-block button-light button-login" ng-click="verifyLink()" ng-show="!loading">
+        OK
+      </button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

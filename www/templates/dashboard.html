@@ -1,0 +1,204 @@
+<ion-view class="dashboard bg-main">
+  <ion-content class="padding has-header">
+    <!-- Start new search -->
+    <div class="new-search no-margin">
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-02.png" alt="">start a new search</h4>
+      </div>
+      <div class="row">
+        <div class="col col-category" ng-click="selectCategory('social')" ng-class="{'active': new_search.category == 'social'}">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-11.png" alt="">
+          </button>
+          <div>Social</div>
+        </div>
+        <div class="col col-category" ng-click="selectCategory('active')" ng-class="{'active': new_search.category == 'active'}">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-10.png" alt="">
+          </button>
+          <div>Active</div>
+        </div>
+        <div class="col col-category" ng-click="selectCategory('handy')" ng-class="{'active': new_search.category == 'handy'}">
+          <button class="button button-clear adb-orange">
+            <img src="img/orange-09.png" alt="">
+          </button>
+          <div>Services</div>
+        </div>
+      </div>
+      <div class="row search-icon">
+        <img src="img/search_what.svg" class="width-icon">
+        <label ng-click="openSearchFindModal('What', 'What are we doing?', new_search)" class="item item-input transparent-noborder full-width">
+          <div class="search-input">
+            <span ng-show="new_search.activities.length > 1">
+    					{{new_search.activities.length}} activities selected</span>
+            <span ng-show="new_search.activities.length == 1" ng-bind="new_search.activities[0].name"></span>
+            <span ng-show="new_search.activities.length == 0">What are we doing?</span>
+          </div>
+        </label>
+      </div>
+      <div class="row search-icon">
+        <img src="img/search_where.svg" class="width-icon">
+        <label ng-click="openSearchFindModal('Where', 'Where are we doing?', new_search)" class="item item-input transparent-noborder full-width">
+          <div class="search-input">
+            <span ng-show="new_search.address">
+    					{{new_search.address}}</span>
+            <span ng-show="!new_search.addressPlace">
+    					Where are we doing?</span>
+          </div>
+        </label>
+      </div>
+      <div class="row search-icon">
+        <img src="img/search_when.svg" class="width-icon">
+        <label ng-click="openSearchFindModal('When', 'When is it happening?')" class="item item-input transparent-noborder full-width">
+          <div class="search-input">
+            <span ng-show="!setWhen">When is it happening?</span>
+            <br>
+            <span ng-show="setWhen">{{startDate}} <br> {{endDate}}</span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <button class="button button-outline button-block button-adb button-login button-adb-inverse" ng-click="openModalNewSearch(new_search)">START SEARCH</button>
+      </div>
+    </div>
+    <!-- Upcoming events -->
+    <div class="events no-margin">
+      <div class="row">
+        <h4 class="header-section"><i class="ion-calendar"></i>Today's Events</h4>
+      </div>
+      <div class="row" ng-if="loading_events">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <div class="search-container">
+        <div ng-show="today_events.length == 0" class="text-center">No events for today</div>
+        <div class="search-card flex-center" ng-click="openModalSearch(activity)" ng-repeat="activity in today_events | limitTo: 3">
+          <div class="search-category padding">
+            <img ng-show="activity.category == 'handy'" src="img/white-09.png" alt="">
+            <img ng-show="activity.category == 'active'" src="img/white-10.png" alt="">
+            <img ng-show="activity.category == 'social'" src="img/white-11.png" alt="">
+          </div>
+          <div>
+            <div class="search-name" ng-bind="activity.name.name"></div>
+            <div ng-bind="activity.startDate | date:'h:mma'"></div>
+          </div>
+        </div>
+        <button class="button button-outline button-block button-adb button-login" ng-click="openModalEvents()">
+          VIEW ALL EVENTS
+        </button>
+      </div>
+    </div>
+    <!-- My Buddies -->
+    <div class="buddies no-margin">
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-04.png" alt="">My Buddies</h4>
+      </div>
+      <div class="row" ng-if="loading_buddies">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <div class="list" ng-show="buddies.length > 0">
+        <label class="padding-right item item-input input-buddy transparent-noborder">
+          <input class="border-bottom adb-orange" type="text" placeholder="Search" ng-model="filterbuddy">
+        </label>
+      </div>
+      <div class="row-buddies">
+        <div class="buddies-container" ng-click="openModalProfile(buddy) " ng-repeat="buddy in buddies  | limitTo: 8 | filter: filterbuddy">
+            <div>
+                <img class="buddy-avatar" ng-src="{{buddy.profileImage}}">
+                <span style="color: rgb(235, 125, 50);    display: block;">{{buddy.fullname}}</span>
+            </div>
+        </div>
+        <button class="button button-outline button-block button-adb button-login" ui-sref="app.buddies">
+          VIEW ALL BUDDIES
+        </button>
+      </div>
+    </div>
+    <!-- My Group -->
+    <div class="buddies no-margin">
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-05.png" alt="">My groups</h4>
+      </div>
+      <div class="row" ng-if="loading_groups">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <div ng-show="groups.length == 0" class="text-center">No groups</div>
+      <div class="row-buddies">
+        <div class="groups-container" ng-click="openModalGroup(group)" ng-repeat="group in groups | limitTo: 2">
+          <img class="buddy-avatar" ng-src="{{group.room.roomImage}}">
+          <div ng-bind="group.room.name"></div>
+        </div>
+        <button class="button button-outline button-block button-adb button-login" ui-sref="app.buddies">
+          VIEW ALL GROUPS
+        </button>
+      </div>
+    </div>
+    <!-- Actives search -->
+    <div class="actives-search no-margin">
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-02.png" alt=""></i>Active searches</h4>
+      </div>
+      <div class="row" ng-if="loading_search">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <div class="list" ng-show="buddies.length > 0">
+        <label class="padding-right item item-input input-buddy transparent-noborder">
+          <input class="border-bottom adb-orange" type="text" placeholder="Search" ng-model="filteractivity">
+        </label>
+      </div>
+      <div class="search-container">
+        <div class="search-card flex-center" ng-click="openModalSearch(activity)" ng-repeat="activity in activities | limitTo: 3 | filter: filteractivity">
+          <div class="search-category padding">
+            <img ng-show="activity.category == 'handy'" src="img/white-09.png" alt="">
+            <img ng-show="activity.category == 'active'" src="img/white-10.png" alt="">
+            <img ng-show="activity.category == 'social'" src="img/white-11.png" alt="">
+          </div>
+          <div>
+            <div class="search-name" ng-bind="activity.name.name"></div>
+            <div ng-bind="activity.startDate | date:'h:mma EEEE, MMMM d'"></div>
+          </div>
+        </div>
+        <button class="button button-outline button-block button-adb button-login" ui-sref="app.search">
+          VIEW ALL SEARCHES
+        </button>
+      </div>
+    </div>
+    <!-- Invited Activities -->
+    <div class="actives-search no-margin">
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-02.png" alt="">Invited searches</h4>
+      </div>
+      <div class="row" ng-if="loading_search">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <div class="search-container">
+        <div class="search-card flex-center" ng-click="openModalSearch(item.activity)" ng-repeat="item in invites">
+          <div class="search-category padding">
+            <img ng-show="activity.category == 'handy'" src="img/white-09.png" alt="">
+            <img ng-show="activity.category == 'active'" src="img/white-10.png" alt="">
+            <img ng-show="activity.category == 'social'" src="img/white-11.png" alt="">
+          </div>
+          <div>
+            <div class="search-name" ng-bind="item.activity.name.name"></div>
+            <div ng-bind="item.activity.startDate | date:'h:mma EEEE, MMMM d'"></div>
+            <div>Status: <span ng-bind="item.status"></span> </div>
+          </div>
+        </div>
+        <!-- <button
+		  		class="button button-outline button-block button-adb button-login"
+		  		ui-sref="app.search">
+		  		VIEW ALL SEARCHES
+			</button> -->
+      </div>
+    </div>
+    
+  </ion-content>
+</ion-view>

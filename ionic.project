@@ -1,0 +1,12 @@
+{
+  "name": "ADB-ionic",
+  "app_id": "f7b5e86a",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}

@@ -1,0 +1,197 @@
+<ion-view class="bg-default">
+  	<ion-header-bar class="bar bar-header adb-header bg-default">
+	    <button class="button button-clear button-light" ng-click="previousStep()"><i class="ion-chevron-left"></i></button>
+	</ion-header-bar>
+	<ion-content>
+	  	<div class="bg-default">
+	  		<form class="form-signup" name="form_1" ng-show="step == 1" novalidate>
+			  	<div class="border-dark-bottom header-form">
+			  		<div class="header-login">
+		  			TELL A LITTLE
+			  		</div>
+			  		<div class="header-login">
+			  			ABOUT YOURSELF...
+			  		</div>
+			  	</div>
+		  		<ul class="list">
+				    <li class="item item-signup">
+					  	<label class="item item-input input-login">
+					    	<input
+					    		name="username"
+					    		type="text"
+					    		placeholder="Username (optional)"
+					    		ng-model="data.fullname">
+					  	</label>
+					  	<label class="flex-center">
+						    <input type="checkbox" ng-model="data.showUsername" value="true">
+						    Show username
+					  	</label>
+					  	<label class="flex-center">
+						    <input type="checkbox" ng-model="data.showName" value="true">
+						    Show name
+					  	</label>
+				    </li>
+				    <li class="item item-signup">
+					  	<label class="item item-input input-signup">
+    						<span class="input-label">BIRTH DATE</span>
+					    	<input
+					    		name="birthdate"
+					    		type="date"
+					    		placeholder="January 1, 1980"
+					    		ng-model="data.birth" ng-change="validateDate()" required>
+					  	</label>
+					  	<div ng-show="data.birth && !isValidDate">
+					  		Please enter a valid value.
+					  	</div>
+				    </li>
+				    <li class="item item-signup">
+					  	<label class="item item-input input-signup no-mbottom">
+    						<span class="input-label">Gender</span>
+					  	</label>
+					  	<label>
+						    <input type="radio" ng-model="data.gender" value="M">
+						    Male
+					  	</label>
+					  	<label>
+						    <input type="radio" ng-model="data.gender" value="F">
+						    Female
+					  	</label>
+				    </li>
+				    <li class="item item-signup">
+					  	<label class="item item-input input-signup" ng-click="openSignModal('Country', 'Select a Country')">
+    						<span class="input-label">Country</span>
+					    	<div name="country" type="text" class="item-div">
+					    		<span ng-show="!data.country">Select a Country</span>
+					    		<span ng-show="data.country" ng-bind="data.country"></span>
+					    		</div>
+					  	</label>
+				  		<label class="item item-input input-signup">
+    						<span class="input-label">City</span>
+					    	<input
+					    		name="city"
+					    		type="text"
+					    		ng-model="data.city">
+					  	</label>
+				    </li>
+				    <li class="item item-signup no-border item-textarea">
+				    	<textarea
+			    		class="textarea-login"
+			    		name="biography"
+			    		type="text"
+			    		placeholder="Tell us a little about yourself..."
+			    		ng-model="data.biography"></textarea>
+				    </li>
+				</ul>
+		 		<div class="col-center home-col" ng-show="loading">
+		  			<ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+		  		</div>
+				<!--ng-disabled="form_1.$invalid"-->
+			  	<button
+			  		class="button button-block button-next" ng-disabled="!data.showUsername && !data.showName"
+			  		ng-click="nextStep()">
+			  		NEXT
+				</button>
+	  		</form>
+	  		<form class="form-signup" ng-show="step == 2" novalidate>
+			  	<div class="border-dark-bottom header-form">
+			  		<div class="header-login">
+		  			SO... WHAT ARE
+			  		</div>
+			  		<div class="header-login">
+			  			YOU INTO?
+			  		</div>
+			  	</div>
+			  	<div class="subheader-form">
+			  		SOCIAL ACTIVITIES
+			  	</div>
+		  		<div class="list">
+		  			<div class="activity-container" ng-click="selectActivity(activity)" ng-repeat="activity in activities['Social']">
+				    	<img ng-class="{'active': checkActivity(activity)}" class="activity-avatar" ng-src="{{activity.image}}">
+				    	<div ng-bind="activity.name"></div>
+				    </div>
+				</div>
+		 		<div class="col-center home-col" ng-show="loading">
+		  			<ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+		  		</div>
+			  	<button
+			  		class="button button-block button-next"
+			  		ng-click="nextStep()">
+			  		NEXT
+				</button>
+	  		</form>
+	  		<form class="form-signup" ng-show="step == 3" novalidate>
+			  	<div class="border-dark-bottom header-form">
+			  		<div class="header-login">
+		  			SO... WHAT ARE
+			  		</div>
+			  		<div class="header-login">
+			  			YOU INTO?
+			  		</div>
+			  	</div>
+			  	<div class="subheader-form">
+			  		SERVICES ACTIVITIES
+			  	</div>
+		  		<div class="list">
+		  			<div class="activity-container" ng-click="selectActivity(activity)" ng-repeat="activity in activities['Services']">
+				    	<img ng-class="{'active': checkActivity(activity)}" class="activity-avatar" ng-src="{{activity.image}}">
+				    	<div ng-bind="activity.name"></div>
+				    </div>
+				</div>
+		 		<div class="col-center home-col" ng-show="loadingActivities">
+		  			<ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+		  		</div>
+			  	<button
+			  		class="button button-block button-next"
+			  		ng-click="nextStep()">
+			  		NEXT
+				</button>
+	  		</form>
+	  		<form class="form-signup" ng-show="step == 4" novalidate>
+			  	<div class="border-dark-bottom header-form">
+			  		<div class="header-login">
+		  			SO... WHAT ARE
+			  		</div>
+			  		<div class="header-login">
+			  			YOU INTO?
+			  		</div>
+			  	</div>
+			  	<div class="subheader-form">
+			  		ACTIVE ACTIVITIES
+			  	</div>
+		  		<div class="list">
+		  			<div class="activity-container" ng-click="selectActivity(activity)" ng-repeat="activity in activities['Active']">
+				    	<img ng-class="{'active': checkActivity(activity)}" class="activity-avatar" ng-src="{{activity.image}}">
+				    	<div ng-bind="activity.name"></div>
+				    </div>
+				</div>
+		 		<div class="col-center home-col" ng-show="loadingActivities">
+		  			<ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+		  		</div>
+			  	<button
+			  		class="button button-block button-next"
+			  		ng-click="nextStep()">
+			  		NEXT
+				</button>
+	  		</form>
+	  		<form class="form-signup" ng-show="step == 5" novalidate>
+			  	<div class="border-dark-bottom header-form">
+			  		<div class="header-login">
+		  			ONE LAST THING!
+			  		</div>
+			  	</div>
+		  		<div>
+		  			<div><img class="avatar-signup" ng-src="{{data.profileImage}}" ng-click="choosePicture()"></div>
+		  			<div class="description">Upload a photo of yourself to complete your profile.</div>
+		  		</div>
+		 		<div class="col-center home-col" ng-show="loading">
+		  			<ion-spinner icon="dots" class="spinner-light"></ion-spinner>
+		  		</div>
+			  	<button
+			  		class="button button-block button-next"
+			  		ng-click="complete()">
+			  		COMPLETE
+				</button>
+	  		</form>
+	  	</div>
+	  </ion-content>
+ </ion-view>

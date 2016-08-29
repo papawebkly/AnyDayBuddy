@@ -1,0 +1,60 @@
+<ion-view class="chats bg-main">
+  <ion-content class="padding has-header">
+    <div>
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-07.png" alt="">My Chats</h4>
+      </div>
+      <div class="row" ng-if="conversations.length == 0 || !conversations">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <!-- Guest -->
+      <div ng-if="n.guest.id === $root.user.id" ng-click="openConversation(n)" ng-repeat="n in conversations | filter: {isGroup: false} | filter: {_isHide: false} track by n.id" aria-label="conversation" class="flex-center padding-bottom item-chat" ng-class="{'chat-unread': (n.messages | lastItem).status != 'read'}">
+        <img class="buddy-avatar" ng-src="{{n.creator.profileImage}}" class="md-avatar" alt="profile">
+        <!-- <span class="status" ng-class="{'online': n.creator.isOnline, 'offline': !n.creator.isOnline}" ng-if="isFriend(n.creator.id)">
+        </span-->
+        <div style="width: 80%;">
+          <div class="padding-left bold">{{n.creator.fullname || n.creator.username }}</div>
+          <div class="padding-left" ng-if="n.messages.length > 0" ng-bind-html="(n.messages | lastItem).content | message"></div>
+          <!-- <md-button ns-popover ns-popover-template="assets/views/adbConversationOptions.html" ns-popover-trigger="click" ns-popover-placement="bottom|right" ns-popover-theme="ns-popover-tooltip-theme overall" ns-popover-timeout="-1" class="md-secondary md-icon-button" ng-click="openChatOptions($event)" aria-label="conversation-options">
+            <md-icon>more_vert</md-icon>
+          </md-button> -->
+        </div>
+        <div ng-show="$root.loading_messages[n.id]">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <!-- User -->
+      <div ng-if="n.creator.id === $root.user.id" ng-repeat="n in conversations | filter: {isGroup: false} | filter: {_isHide: false} track by n.id" class="flex-center padding-bottom item-chat" ng-class="{'chat-unread': (n.messages | lastItem).status != 'read'}" ng-click="openConversation(n)" aria-label="conversation">
+        <img class="buddy-avatar" ng-src="{{n.guest.profileImage}}" alt="profile">
+        <!-- <span class="status" ng-class="{'online': n.guest.isOnline, 'offline': !n.guest.isOnline}" ng-if="isFriend(n.guest.id)"> -->
+        <!-- </span> -->
+        <!-- <span class="unread-count" ng-if="(n.messages | lastItem).status != 'read'"> -->
+        <!-- <md-icon>chat_bubble</md-icon> -->
+        <!-- </span> -->
+        <div style="width: 80%;">
+          <div class="padding-left bold">{{n.guest.fullname}}</div>
+          <div class="padding-left" ng-if="n.messages.length > 0" ng-bind-html="(n.messages | lastItem).content | message"></div>
+          <!-- <md-button ns-popover ns-popover-template="assets/views/adbConversationOptions.html" ns-popover-trigger="click" ns-popover-placement="bottom|right" ns-popover-theme="ns-popover-tooltip-theme overall" ns-popover-timeout="-1" class="md-secondary md-icon-button" ng-click="openChatOptions($event)" aria-label="conversation-options">
+            <md-icon>more_vert</md-icon>
+          </md-button> -->
+        </div>
+        <div ng-show="$root.loading_messages[n.id]">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <!-- Groups -->
+      <div ng-click="openConversation(n)" ng-repeat="n in conversations | filter: {isGroup: true} | filter: {_isHide: false}" aria-label="conversation" class="flex-center item-chat padding-bottom" ng-class="{'chat-unread': (n.messages | lastItem).status != 'read'}">
+        <img class="buddy-avatar" ng-src="{{n.roomImage}}" class="md-avatar">
+        <div style="width: 80%;">
+          <div class="bold padding-left">{{n.name}}</div>
+          <div class="padding-left" ng-if="n.messages.length > 0" ng-bind-html="(n.messages | lastItem).content | message"></div>
+        </div>
+        <div ng-show="$root.loading_messages[n.id]">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

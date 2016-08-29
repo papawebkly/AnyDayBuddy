@@ -1,0 +1,63 @@
+<ion-view>
+  <ion-header-bar class="bar bar-header adb-header bg-default">
+    <h1 class="title">
+	      <span ng-bind="config.action"></span>
+	    </h1>
+    <button class="button button-clear button-light" ng-click="okSearchFindModal()">Ok</button>
+  </ion-header-bar>
+  <ion-content class="padding bg-main" ng-controller="SearchFindCtrl">
+    <!-- What -->
+    <div ng-show="config.action == 'What'">
+      <label class="item item-input transparent-noborder">
+        <input class="adb-orange border-bottom" type="text" placeholder="Find Activities" ng-model="filter">
+      </label>
+      <small class="padding adb-orange">The limit is 5 activities per search</small>
+      <div ng-repeat="activity in categories | filter:filter | limitTo:10">
+        <div class="padding dark" ng-class="{'adb-orange': activity.added}" ng-click="clickActivity(activity)">
+          {{activity.name}}</div>
+      </div>
+    </div>
+    <!-- Where -->
+    <div ng-show="config.action == 'Where'">
+      <label class="item item-input transparent-noborder">
+        <input class="adb-orange border-bottom" type="text" placeholder="Place" ng-model="new_search.address" ng-change="autocompleteAddress(new_search.address)">
+      </label>
+      <div ng-repeat="item in places | limitTo:10">
+        <div class="padding dark" ng-click="setLocation(item)"><i class="ion-android-pin padding-right"></i>{{item.description}}</div>
+      </div>
+    </div>
+    <!-- When -->
+    <!-- <div class="calendar-container"> -->
+    <div class="datetime-container" ng-show="config.action == 'When'">
+      <!-- Start -->
+      <div id="datetimepicker-start">
+        <div class="item item-input-inset transparent-noborder">
+          <label id="input-start" class="item-input-wrapper item-input transparent-noborder">
+            <div class="full-width bottom-orange search-input" ng-bind="startDate"></div>
+						<input type="date" class="hidden">
+          </label>
+          <button class="button button-small button-adb button-login" ng-click="now()">
+            NOW
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="datetime-container" ng-show="config.action == 'When'">
+      <!-- End -->
+      <div id="datetimepicker-end">
+        <div class="item item-input-inset transparent-noborder">
+          <label class="item-input-wrapper item-input transparent-noborder">
+            <div class="full-width bottom-orange search-input" ng-bind="startDate"></div>
+						<input type="date" class="hidden">
+          </label>
+          <button class="button button-small button-adb button-login" ng-click="until()">
+            UNTIL
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+    <ui-gmap-google-map id="map" ng-show="mapVisible" center="map.center" zoom="map.zoom" options="map.options" control="map.control">
+    </ui-gmap-google-map>
+  </ion-content>
+</ion-view>

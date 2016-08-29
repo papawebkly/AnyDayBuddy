@@ -1,0 +1,169 @@
+<ion-modal-view  ng-controller="BuddyProfileCtrl">
+  <ion-header-bar class="bar bar-header adb-header bg-default">
+    <h1 class="title">
+      <span ng-show="selected_buddy">Buddy Profile</span>
+      <span ng-show="!selected_buddy">Add Buddy</span>
+    </h1>
+    <button class="button button-clear button-light" ng-click="hideModalProfile()">
+      <i class="ion-close"></i>
+    </button>
+  </ion-header-bar>
+  <!-- My Profile -->
+  <ion-content class="padding bg-main" ng-show="selected_buddy && logged">
+    <div class="row">
+      <div class="buddy-profile full-width">
+        <div class="text-center" style="width: 50%;">
+          <img class="buddy-avatar" ng-src="{{selected_buddy.profileImage}}">
+        </div>
+        <div class="buddy-data">
+          <div class="profile-fullname" ng-show="selected_buddy.showName" ng-bind="selected_buddy.fullname"></div>
+          <div ng-show="selected_buddy.showUsername">@{{selected_buddy.username}}</div>
+          <div>BN: {{selected_buddy.buddyNumber}}</div>
+          <div class="adb-orange flex-center">{{selected_buddy.fistBumps || 0}} <img src="img/orange-13.png" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <button
+          class="button button-outline button-block button-adb button-login"
+          ng-click="openModalSettings()">
+          EDIT PROFILE
+        </button>
+    </div>
+    <div class="row">
+      <div class="buddy-profile-actions">
+        <div class="profile-buddies">
+          {{selected_buddy.friends.length}}
+          <img src="img/orange-04.png" alt="">
+          <div>
+            Buddies
+          </div>
+        </div>
+        <div class="profile-buddies">
+          {{user.groups.length || 0}}
+          <img src="img/orange-05.png" alt="">
+          <div>
+            Groups
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="profile-bio" ng-bind="selected_buddy.biography"></div>
+    </div>
+  </ion-content>
+
+  <!-- Add Buddy -->
+  <ion-content class="padding bg-main" ng-show="new">
+    <form class="form-buddy" novalidate>
+        <div class="list">
+            <label class="item item-input input-buddy">
+              <input
+                type="text"
+                placeholder="Buddy number"
+                ng-model="new_buddy.buddyNumber">
+            </label>
+        </div>
+        <button
+          class="button button-outline button-block button-adb button-login"
+          ng-click="searchBuddy()"
+          ng-disabled="!new_buddy.buddyNumber">
+          SEARCH
+        </button>
+    </form>
+    <div class="row" ng-if="loading">
+      <div class="col-center home-col">
+        <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+      </div>
+    </div>
+    <div class="row">
+      <div class="profile-message" ng-bind="message"></div>
+    </div>
+  </ion-content>
+
+  <!-- Buddy Profile -->
+  <ion-content class="padding bg-main" ng-show="selected_buddy && !new && !logged">
+    <div class="row">
+      <div class="buddy-profile full-width">
+        <div class="text-center" style="width: 50%;">
+          <img class="buddy-avatar" ng-src="{{selected_buddy.profileImage}}">
+        </div>
+        <div class="buddy-data">
+          <div class="profile-fullname" ng-show="selected_buddy.showName" ng-bind="selected_buddy.fullname"></div>
+          <div ng-show="selected_buddy.showUsername">@{{selected_buddy.username}}</div>
+          <div>BN: {{selected_buddy.buddyNumber}}</div>
+          <div class="adb-orange flex-center"> <button style="background:transparent; border:0px; width:100px" class="adb-orange flex-center" ng-click="bistClick(selected_buddy.id)">{{selected_buddy.fistBumps}}<img src="img/orange-13.png" alt=""></button></div>
+          <div class="row" ng-if="loading">
+              <div class="col-center home-col">
+                  <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="buddy-profile-actions">
+        <div style="width: 50%;">
+          <button
+            class="button button-outline button-adb"
+            ng-click="openChat(selected_buddy.id)"
+            ng-show="!canInvite"><img src="img/orange-07.png" alt="">
+            START CHAT
+          </button>
+          <button
+              ng-show="canInvite"
+              class="button button-outline button-adb profile-buddies"
+              ng-click="invite()"><i class="ion-person-add"></i>
+              ADD BUDDY
+          </button>
+        </div>
+        <div class="profile-buddies" ng-show="!canInvite">
+          {{selected_buddy.friends.length}}
+          <img src="img/orange-05.png" alt="">
+          <div>
+            @{{selected_buddy.username || selected_buddy.fullname}}'s Buddies
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="profile-message" ng-bind="message"></div>
+    </div>
+    <div class="row">
+      <div class="profile-bio" ng-bind="selected_buddy.biography"></div>
+    </div>
+    <div class="row" ng-show="!canInvite && selected_buddy.activities.length > 0">
+      <h4 class="header-section">BUDDY HISTORY</h4>
+    </div>
+    <div class="row" ng-if="loading_activities && !canInvite">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+    <div class="row" ng-show="selected_buddy.activities.length > 0">
+      <div class="search-container full-width">
+        <div class="search-card flex-center" ng-repeat="activity in selected_buddy.activities | limitTo: 5">
+          <div class="search-category padding">
+            <i ng-show="activity.category == 'social'"class="ion-wineglass"></i>
+            <i ng-show="activity.category == 'handy'"class="ion-settings"></i>
+            <i ng-show="activity.category == 'active'"class="ion-android-bicycle"></i>
+          </div>
+          <div>
+            <div class="search-name" ng-bind="activity.name.name"></div>
+            <div ng-bind="activity.startDate | date:'h:mma EEEE, MMMM d'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-center profile-footer">
+      <div style="width: 50%;">
+        <button class="button-adb button-circle" ng-click="blockBuddy()">
+        <i class="ion-close"></i></button> <span>Block Buddy</span>
+      </div>
+      <div>
+        <button class="button-adb button-circle" ng-click="unbuddy()">
+        <i class="ion-close"></i></button> <span>UnBuddy</span>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

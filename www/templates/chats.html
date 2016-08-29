@@ -1,0 +1,67 @@
+<ion-view class="chats bg-main">
+  <ion-content class="padding has-header">
+    <div>
+      <div class="row">
+        <h4 class="header-section"><img src="img/orange-07.png" alt="">My Chats</h4>
+      </div>
+      <div class="row" ng-if="conversations.length == 0 || !conversations">
+        <div class="col-center home-col">
+          <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+        </div>
+      </div>
+      <ion-list can-swipe="true" show-delete="false" show-reorder="false" ng-if="conversations" class="disable-user-behavior" style="background:transparent">
+          <div class="list">
+          <!-- ngRepeat: room in activities -->
+                <ion-item ng-if="n.guest.id === $root.user.id" ng-repeat="n in conversations | filter: {isGroup: false} | filter: {_isHide: false} track by n.id" class="item-remove-animate item-avatar item item-complex item-chat" style="border-color: transparent;background:transparent" nav-direction="forward" ng-click="openConversation(n)" ng-class="{'chat-unread': (n.messages | lastItem).status != 'read'}" type="item-text-wrap">
+                    <img class="buddy-avatar" ng-src="{{n.creator.profileImage}}" class="md-avatar" alt="profile">
+                    <div style="width: 80%; background:transparent">
+                        <div class="padding-left bold">{{n.creator.fullname || n.creator.username }}</div>
+                        <div class="padding-left" ng-if="n.messages.length > 0" ng-bind-html="(n.messages | lastItem).content | message"></div>
+                    </div>
+                    <ion-option-button class="button button-assertive"
+                        ng-click="chatDelete(n.id)">
+                        DELETE
+                    </ion-option-button>
+                    <div ng-show="$root.loading_messages[n.id]">
+                        <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+                    </div>
+                </ion-item>
+            <!-- end ngRepeat: room in activities -->
+            <!-- ngRepeat: room in activities -->
+            <ion-item ng-if="n.creator.id === $root.user.id" ng-repeat="n in conversations | filter: {isGroup: false} | filter: {_isHide: false} track by n.id" class="item-remove-animate item-avatar item item-complex item-right-editable item-chat"  style="border-color: transparent;background:transparent" nav-direction="forward" ng-click="openConversation(n)" ng-class="{'chat-unread': (n.messages | lastItem).status != 'read'}" type="item-text-wrap">
+                <img class="buddy-avatar" ng-src="{{n.guest.profileImage}}" class="md-avatar" alt="profile">
+                    <div style="width: 80%;background:transparent">
+                        <div class="padding-left bold">{{n.guest.fullname}}</div>
+                        <div class="padding-left" ng-if="n.messages.length > 0" ng-bind-html="(n.messages | lastItem).content | message"></div>
+                    </div>
+                    <ion-option-button class="button button-assertive"
+                        ng-click="chatDelete(n.id)">
+                        DELETE
+                    </ion-option-button>
+                    <div ng-show="$root.loading_messages[n.id]">
+                        <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+                    </div>
+                </ion-item>
+            <!-- end ngRepeat: room in activities -->
+            <!-- ngRepeat: room in activities -->
+            <ion-item ng-if="n.creator.id === $root.user.id" ng-repeat="n in conversations | filter: {isGroup: true} | filter: {_isHide: false}" class="item-remove-animate item-avatar item item-complex item-right-editable item-chat" style="border-color: transparent;background:transparent" nav-direction="forward" ng-click="openConversation(n)" ng-class="{'chat-unread': (n.messages | lastItem).status != 'read'}" type="item-text-wrap">
+                <img class="buddy-avatar" ng-src="{{n.roomImage}}" class="md-avatar" alt="profile">
+                    <div style="width: 80%;background:transparent">
+                        <div class="padding-left bold">{{n.name}}</div>
+                        <div class="padding-left" ng-if="n.messages.length > 0" ng-bind-html="(n.messages | lastItem).content | message"></div>
+                    </div>
+                    <ion-option-button class="button button-assertive"
+                        ng-click="chatDelete(n.id)">
+                        DELETE
+                    </ion-option-button>
+                    <div ng-show="$root.loading_messages[n.id]">
+                        <ion-spinner icon="dots" class="spinner-adb"></ion-spinner>
+                    </div>
+                </ion-item>
+            <!-- end ngRepeat: room in activities -->
+          </div>
+      </ion-list>
+      
+    </div>
+  </ion-content>
+</ion-view>
